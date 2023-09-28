@@ -24,8 +24,8 @@ public class StatsController {
     private final StatsService statsService;
 
     @PostMapping(value = "/hit")
-    public EndpointHitDto makeHit(@RequestBody @Valid EndpointHitInDto hitInDto) {
-        return statsService.makeHit(hitInDto);
+    public EndpointHitDto addHit(@RequestBody @Valid EndpointHitInDto hitInDto) {
+        return statsService.addHit(hitInDto);
     }
 
     @GetMapping(value = "/stats")

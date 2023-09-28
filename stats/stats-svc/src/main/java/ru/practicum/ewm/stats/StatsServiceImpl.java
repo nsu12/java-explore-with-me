@@ -23,7 +23,7 @@ public class StatsServiceImpl implements StatsService {
     private final StatsRepository statsRepository;
     @Transactional
     @Override
-    public EndpointHitDto makeHit(EndpointHitInDto hitInDto) {
+    public EndpointHitDto addHit(EndpointHitInDto hitInDto) {
         EndpointHit hit = new EndpointHit();
         hit.setApp(hitInDto.getApp());
         hit.setUri(hitInDto.getUri());

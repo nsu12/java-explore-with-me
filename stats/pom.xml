@@ -17,6 +17,7 @@
     <modules>
         <module>stats-svc</module>
         <module>common-dto</module>
+        <module>stats-client</module>
     </modules>
 
     <properties>

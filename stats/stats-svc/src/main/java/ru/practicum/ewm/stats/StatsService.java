@@ -11,7 +11,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface StatsService {
     @Transactional
-    EndpointHitDto makeHit(EndpointHitInDto endpointHitInDto);
+    EndpointHitDto addHit(EndpointHitInDto endpointHitInDto);
 
     List<ViewStatsDto> getStats(LocalDateTime startDate, LocalDateTime endDate, List<String> uris, Boolean unique);
 }
