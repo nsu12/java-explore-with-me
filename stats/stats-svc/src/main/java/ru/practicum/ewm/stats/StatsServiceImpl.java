@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class StatsServiceImpl implements StatsService {
 
     private final StatsRepository statsRepository;
+
     @Transactional
     @Override
     public EndpointHitDto addHit(EndpointHitInDto hitInDto) {

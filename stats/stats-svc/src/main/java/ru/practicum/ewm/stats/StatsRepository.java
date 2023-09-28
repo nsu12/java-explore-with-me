@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
-    @Query( "SELECT eh.app AS app, eh.uri AS uri, COUNT(eh.uri) AS hitCount " +
+    @Query(value =
+            "SELECT eh.app AS app, eh.uri AS uri, COUNT(eh.uri) AS hitCount " +
             "FROM EndpointHit AS eh " +
             "WHERE eh.timestamp BETWEEN ?1 AND ?2 " +
             "GROUP BY eh.app, eh.uri " +
@@ -16,7 +17,7 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     )
     List<HitCountView> getHitCountFromDates(LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query( value =
+    @Query(value =
             "SELECT sub.app AS app, sub.uri AS uri, COUNT(sub.uri) as hitCount " +
             "FROM ( " +
             "   SELECT eh.app, eh.uri, eh.ip " +
@@ -30,7 +31,8 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     )
     List<HitCountView> getHitCountFromDatesUnique(LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query( "SELECT eh.app AS app, eh.uri AS uri, COUNT(eh.uri) AS hitCount " +
+    @Query(value =
+            "SELECT eh.app AS app, eh.uri AS uri, COUNT(eh.uri) AS hitCount " +
             "FROM EndpointHit AS eh " +
             "WHERE eh.timestamp BETWEEN ?1 AND ?2 AND eh.uri IN (?3) " +
             "GROUP BY eh.app, eh.uri " +
@@ -39,7 +41,7 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     List<HitCountView> getHitCountFromDatesFiltered(LocalDateTime startDate,
                                                     LocalDateTime endData, List<String> uris);
 
-    @Query( value =
+    @Query(value =
             "SELECT sub.app AS app, sub.uri AS uri, COUNT(sub.uri) as hitCount " +
             "FROM ( " +
             "   SELECT eh.app, eh.uri, eh.ip " +
