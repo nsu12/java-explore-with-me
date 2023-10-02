@@ -1,10 +1,7 @@
 package ru.practicum.ewm.stats;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.stats.dto.EndpointHitDto;
 import ru.practicum.ewm.stats.dto.EndpointHitInDto;
 import ru.practicum.ewm.stats.dto.ViewStatsDto;
@@ -15,7 +12,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 @Validated
@@ -41,23 +37,5 @@ public class StatsController {
             throw new ValidationException("end date must be after start date");
         }
         return statsService.getStats(startDate, endDate, uris, unique);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ValidationException.class)
-    public ErrorResponse handleValidationException(ValidationException exception) {
-        return new ErrorResponse(exception.getMessage());
-    }
-
-    static class ErrorResponse {
-        public final String error;
-
-        public ErrorResponse(String message) {
-            this.error = message;
-        }
-
-        public String getError() {
-            return error;
-        }
     }
 }

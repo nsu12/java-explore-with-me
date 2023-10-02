@@ -7,6 +7,7 @@ import ru.practicum.ewm.stats.model.EndpointHit;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     @Query(value =
             "SELECT eh.app AS app, eh.uri AS uri, COUNT(eh.uri) AS hitCount " +
