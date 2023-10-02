@@ -1,6 +1,6 @@
-package ru.practicum.ewm.status.error;
+package ru.practicum.ewm.stats.error;
 
-class ErrorResponse {
+public class ErrorResponse {
     public final String error;
 
     public ErrorResponse(String message) {
