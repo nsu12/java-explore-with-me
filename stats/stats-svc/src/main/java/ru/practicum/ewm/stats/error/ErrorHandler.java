@@ -10,8 +10,8 @@ import javax.validation.ValidationException;
 public class ErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(ValidationException.class)
+    @ExceptionHandler(ValidationException.class)
     public ErrorResponse handleValidationException(ValidationException exception) {
-        return new ErrorResponse(exception.getMessage());
+    	return new ErrorResponse(exception.getMessage());
     }
 }
