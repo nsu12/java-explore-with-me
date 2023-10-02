@@ -1,5 +1,6 @@
 package ru.practicum.ewm.stats.dto;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.ewm.stats.model.EndpointHit;
 
 @UtilityClass

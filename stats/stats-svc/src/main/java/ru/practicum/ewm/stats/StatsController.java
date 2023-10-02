@@ -2,6 +2,7 @@ package ru.practicum.ewm.stats;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.stats.dto.EndpointHitDto;
 import ru.practicum.ewm.stats.dto.EndpointHitInDto;
 import ru.practicum.ewm.stats.dto.ViewStatsDto;
