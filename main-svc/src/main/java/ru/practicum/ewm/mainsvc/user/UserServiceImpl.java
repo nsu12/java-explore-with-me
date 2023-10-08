@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(userInDto.getName());
         user.setEmail(userInDto.getEmail());
-        return UserMapper.toUserDto(userRepository.save(user));
+        return UserMapper.toDto(userRepository.save(user));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
                     PageRequest.of(from/size, size, Sort.by(Sort.Direction.ASC, "id"))
             ).toList();
         }
-        return UserMapper.toUserDto(users);
+        return UserMapper.toDto(users);
     }
 
     @Override

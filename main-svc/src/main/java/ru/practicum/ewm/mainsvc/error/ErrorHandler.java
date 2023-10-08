@@ -1,6 +1,6 @@
 package ru.practicum.ewm.mainsvc.error;
 
-import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,8 +24,8 @@ public class ErrorHandler {
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ErrorMessage handleConstraintViolationException(ConstraintViolationException exception) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ErrorMessage handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         return new ErrorMessage(
                 HttpStatus.CONFLICT,
                 "Integrity constraint has been violated.",
