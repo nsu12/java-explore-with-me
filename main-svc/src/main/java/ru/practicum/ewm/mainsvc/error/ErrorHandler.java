@@ -14,8 +14,8 @@ public class ErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
-    public ErrorMessage handleValidationException(ValidationException exception) {
-        return new ErrorMessage(
+    public ApiError handleValidationException(ValidationException exception) {
+        return new ApiError(
                 HttpStatus.BAD_REQUEST,
                 "Incorrectly made request.",
                 exception.getMessage(),
@@ -25,8 +25,8 @@ public class ErrorHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ErrorMessage handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
-        return new ErrorMessage(
+    public ApiError handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        return new ApiError(
                 HttpStatus.CONFLICT,
                 "Integrity constraint has been violated.",
                 exception.getMessage(),
@@ -36,8 +36,8 @@ public class ErrorHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntryNotFoundException.class)
-    public ErrorMessage handleEntryNotFoundException(EntryNotFoundException exception) {
-        return new ErrorMessage(
+    public ApiError handleEntryNotFoundException(EntryNotFoundException exception) {
+        return new ApiError(
                 HttpStatus.NOT_FOUND,
                 "The required object was not found.",
                 exception.getMessage(),

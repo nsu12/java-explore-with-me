@@ -10,3 +10,38 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(254) NOT NULL,
     CONSTRAINT uniq_name_email UNIQUE (name, email)
 );
+
+-- CREATE TABLE IF NOT EXISTS location (
+--     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+--     lat FLOAT,
+--     lon FLOAT
+-- );
+
+CREATE TABLE IF NOT EXISTS event (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    title VARCHAR(120) NOT NULL,
+    annotation VARCHAR(2000) NOT NULL,
+    description VARCHAR(7000) NOT NULL,
+    category_id BIGINT REFERENCES category(id) ON DELETE RESTRICT,
+    event_date TIMESTAMP WITHOUT TIME ZONE,
+    initiator_id BIGINT REFERENCES users(id) ON DELETE RESTRICT,
+--     location_id BIGINT REFERENCES location(id) ON DELETE RESTRICT,
+    location_lat FLOAT,
+    location_lon FLOAT,
+    paid BOOLEAN,
+    participant_limit INTEGER DEFAULT 0,
+    request_moderation BOOLEAN DEFAULT TRUE,
+    created_on TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+    published_on TIMESTAMP WITHOUT TIME ZONE,
+    confirmed_requests INTEGER DEFAULT 0,
+    state VARCHAR(10)
+);
+
+CREATE TABLE IF NOT EXISTS participation_request (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    event_id BIGINT REFERENCES event(id) ON DELETE RESTRICT,
+    requester_id BIGINT REFERENCES users(id) ON DELETE RESTRICT,
+    created_on TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+    status VARCHAR(10)
+);
+

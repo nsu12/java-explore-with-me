@@ -2,13 +2,14 @@ package ru.practicum.ewm.mainsvc.category;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.mainsvc.category.dto.CategoryDto;
+import ru.practicum.ewm.mainsvc.category.dto.NewCategoryDto;
 
 import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CategoryService {
     @Transactional
-    CategoryDto create(CategoryDto categoryInDto);
+    CategoryDto create(NewCategoryDto categoryInDto);
 
     List<CategoryDto> getAll(Integer from, Integer size);
 

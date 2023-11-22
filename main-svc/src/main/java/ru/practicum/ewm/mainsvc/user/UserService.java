@@ -1,6 +1,7 @@
 package ru.practicum.ewm.mainsvc.user;
 
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.mainsvc.user.dto.NewUserDto;
 import ru.practicum.ewm.mainsvc.user.dto.UserDto;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface UserService {
 
     @Transactional
-    UserDto addUser(UserDto userInDto);
+    UserDto addUser(NewUserDto userInDto);
 
     List<UserDto> getUsers(List<Long> userIds, Integer from, Integer size);
 

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.mainsvc.user.dto.NewUserDto;
 import ru.practicum.ewm.mainsvc.user.dto.UserDto;
 
 import javax.validation.Valid;
@@ -20,7 +21,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public UserDto addUser(@RequestBody @Valid UserDto userInDto) {
+    public UserDto addUser(@RequestBody @Valid NewUserDto userInDto) {
         return userService.addUser(userInDto);
     }
 

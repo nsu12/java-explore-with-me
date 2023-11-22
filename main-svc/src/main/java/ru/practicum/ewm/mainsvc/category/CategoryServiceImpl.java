@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.mainsvc.category.dto.CategoryDto;
 import ru.practicum.ewm.mainsvc.category.dto.CategoryMapper;
+import ru.practicum.ewm.mainsvc.category.dto.NewCategoryDto;
 import ru.practicum.ewm.mainsvc.category.model.Category;
 import ru.practicum.ewm.mainsvc.error.EntryNotFoundException;
 
@@ -21,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryDto create(CategoryDto categoryInDto) {
+    public CategoryDto create(NewCategoryDto categoryInDto) {
         Category category = new Category();
         category.setName(categoryInDto.getName());
         return CategoryMapper.toDto(categoryRepository.save(category));

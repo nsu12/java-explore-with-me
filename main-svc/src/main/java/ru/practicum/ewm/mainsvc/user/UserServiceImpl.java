@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.mainsvc.error.EntryNotFoundException;
+import ru.practicum.ewm.mainsvc.user.dto.NewUserDto;
 import ru.practicum.ewm.mainsvc.user.dto.UserDto;
 import ru.practicum.ewm.mainsvc.user.dto.UserMapper;
 import ru.practicum.ewm.mainsvc.user.model.User;
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     @Override
     @Transactional
-    public UserDto addUser(UserDto userInDto) {
+    public UserDto addUser(NewUserDto userInDto) {
         User user = new User();
         user.setName(userInDto.getName());
         user.setEmail(userInDto.getEmail());
