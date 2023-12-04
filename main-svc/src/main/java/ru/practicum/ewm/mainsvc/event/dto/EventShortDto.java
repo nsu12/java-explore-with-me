@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @Builder
-public class EventShortDto {
+public class EventShortDto implements EventDto {
     private Long id;
     private String title;
     private String annotation;

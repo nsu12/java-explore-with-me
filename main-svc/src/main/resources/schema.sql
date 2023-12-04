@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS event (
     request_moderation BOOLEAN DEFAULT TRUE,
     created_on TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
     published_on TIMESTAMP WITHOUT TIME ZONE,
-    confirmed_requests INTEGER DEFAULT 0,
     state VARCHAR(10)
 );
 

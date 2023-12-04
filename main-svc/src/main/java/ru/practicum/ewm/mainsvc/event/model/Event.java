@@ -43,8 +43,6 @@ public class Event {
     private LocalDateTime createdOn;
     @Column(name = "published_on")
     private LocalDateTime publishedOn;
-    @Column(name = "confirmed_requests")
-    private Long confirmedRequests;
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private EventState state;

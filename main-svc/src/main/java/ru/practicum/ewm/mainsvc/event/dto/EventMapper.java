@@ -27,9 +27,15 @@ public class EventMapper {
                 .requestModeration(event.isRequestModeration())
                 .createdOn(event.getCreatedOn())
                 .publishedOn(event.getPublishedOn())
-                .confirmedRequests(event.getConfirmedRequests())
                 .state(event.getState())
                 .build();
+    }
+
+    public static List<EventFullDto> toFullDto(List<Event> events) {
+        if (events == null || events.isEmpty()) return Collections.emptyList();
+        return events.stream()
+                .map(EventMapper::toFullDto)
+                .collect(Collectors.toList());
     }
 
     public static EventShortDto toShortDto(Event event) {
@@ -39,7 +45,6 @@ public class EventMapper {
                 .annotation(event.getAnnotation())
                 .description(event.getDescription())
                 .category(CategoryMapper.toDto(event.getCategory()))
-                .confirmedRequests(event.getConfirmedRequests())
                 .eventDate(event.getEventDate())
                 .initiator(UserMapper.toShortDto(event.getInitiator()))
                 .paid(event.isPaid())

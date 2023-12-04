@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.xml.bind.ValidationException;
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
@@ -40,6 +40,17 @@ public class ErrorHandler {
         return new ApiError(
                 HttpStatus.NOT_FOUND,
                 "The required object was not found.",
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(InvalidRequestParamsException.class)
+    public ApiError handleInvalidRequestParamsException(InvalidRequestParamsException exception) {
+        return new ApiError(
+                HttpStatus.CONFLICT,
+                "For the requested operation the conditions are not met.",
                 exception.getMessage(),
                 LocalDateTime.now()
         );

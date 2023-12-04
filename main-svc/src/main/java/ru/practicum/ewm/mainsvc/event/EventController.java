@@ -49,7 +49,7 @@ public class EventController {
     }
 
     @PatchMapping(value = "/users/{userId}/events/{eventId}")
-    public EventFullDto updateFromUser(
+    public EventFullDto updateEventFromUser(
             @PathVariable Long userId,
             @PathVariable Long eventId,
             @RequestBody @Valid UpdateEventUserRequest eventRequest
@@ -59,7 +59,7 @@ public class EventController {
 
     // public
     @GetMapping(value = "/events")
-    public List<EventShortDto>  getAllEvents(
+    public List<EventShortDto> getPublishedEvents(
             @RequestParam(name = "text", required = false) String text,
             @RequestParam(name = "categories", required = false) List<Long> categories,
             @RequestParam(name = "paid", required = false) Boolean paid,
@@ -72,7 +72,7 @@ public class EventController {
     ) {
         var range = checkDateRange(rangeStart, rangeEnd);
 
-        return eventService.getAllEvents(
+        return eventService.findPublishedEvents(
                 text,
                 categories,
                 paid,
@@ -87,8 +87,8 @@ public class EventController {
     }
 
     @GetMapping(value = "/events/{id}")
-    public EventFullDto getEventById(@PathVariable Long id) {
-        return eventService.getEventById(id);
+    public EventFullDto getPublishedEventById(@PathVariable Long id) {
+        return eventService.getPublishedEventById(id);
     }
 
     // admin
@@ -115,7 +115,7 @@ public class EventController {
     }
 
     @PatchMapping(value = "/admin/events/{eventId}")
-    public EventFullDto updateFromAdmin(
+    public EventFullDto updateEventFromAdmin(
             @PathVariable Long eventId,
             @RequestBody @Valid UpdateEventAdminRequest eventRequest
     ) {

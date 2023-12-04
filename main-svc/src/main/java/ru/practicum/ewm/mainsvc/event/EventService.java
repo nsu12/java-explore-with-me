@@ -18,15 +18,15 @@ public interface EventService {
     @Transactional
     EventFullDto updateEventFromUser(Long userId, Long eventId, UpdateEventUserRequest eventRequest);
 
-    List<EventShortDto> getAllEvents(String text,
-                                     List<Long> categories,
-                                     Boolean paid,
-                                     LocalDateTime rangeStartDate, LocalDateTime rangeEndDate,
-                                     Boolean onlyAvailable,
-                                     EventSortOption sortBy,
-                                     Integer from, Integer size);
+    List<EventShortDto> findPublishedEvents(String text,
+                                            List<Long> categories,
+                                            Boolean paid,
+                                            LocalDateTime rangeStartDate, LocalDateTime rangeEndDate,
+                                            Boolean onlyAvailable,
+                                            EventSortOption sortBy,
+                                            Integer from, Integer size);
 
-    EventFullDto getEventById(Long id);
+    EventFullDto getPublishedEventById(Long id);
 
     List<EventFullDto> findEvents(List<Long> users,
                                   List<String> states,
@@ -34,5 +34,6 @@ public interface EventService {
                                   LocalDateTime rangeStartDate, LocalDateTime rangeEndDate,
                                   Integer from, Integer size);
 
+    @Transactional
     EventFullDto updateEventFromAdmin(Long eventId, UpdateEventAdminRequest eventRequest);
 }
