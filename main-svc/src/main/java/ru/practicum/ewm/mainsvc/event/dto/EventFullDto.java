@@ -29,7 +29,7 @@ public class EventFullDto implements EventDto {
     private LocalDateTime createdOn;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime publishedOn;
-    private Long confirmedRequests;
+    private Integer confirmedRequests;
     private Long views;
-    private EventState state;
+    private String state;
 }

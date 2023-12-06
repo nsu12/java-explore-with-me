@@ -5,7 +5,8 @@ import java.util.Optional;
 public enum EventRequestStatus {
     PENDING,
     CONFIRMED,
-    REJECTED;
+    REJECTED,
+    CANCELED;
 
     public static Optional<EventRequestStatus> fromString(String string) {
         for (EventRequestStatus state: EventRequestStatus.values()) {

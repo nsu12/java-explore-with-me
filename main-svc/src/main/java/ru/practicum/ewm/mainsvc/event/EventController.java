@@ -11,7 +11,6 @@ import ru.practicum.ewm.mainsvc.validation.ValueOfEnum;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
@@ -94,9 +93,9 @@ public class EventController {
     // admin
     @GetMapping(value = "/admin/events")
     public List<EventFullDto> findEvents(
-            @NotEmpty @RequestParam(name = "users", required = false) List<Long> users,
-            @NotEmpty @RequestParam(name = "states", required = false) List<@ValueOfEnum(enumClass = EventState.class) String> states,
-            @NotEmpty @RequestParam(name = "categories", required = false) List<Long> categories,
+            @RequestParam(name = "users", required = false) List<Long> users,
+            @RequestParam(name = "states", required = false) List<@ValueOfEnum(enumClass = EventState.class) String> states,
+            @RequestParam(name = "categories", required = false) List<Long> categories,
             @RequestParam(name = "rangeStart", required = false) String rangeStart,
             @RequestParam(name = "rangeEnd", required = false) String rangeEnd,
             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,

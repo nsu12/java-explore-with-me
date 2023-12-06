@@ -3,9 +3,11 @@ package ru.practicum.ewm.mainsvc.request.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class EventRequestStatusUpdateResult {
-    private ParticipationRequestDto confirmedRequests;
-    private ParticipationRequestDto rejectedRequests;
+    private List<ParticipationRequestDto> confirmedRequests;
+    private List<ParticipationRequestDto> rejectedRequests;
 }

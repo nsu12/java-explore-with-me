@@ -17,10 +17,10 @@ public interface RequestService {
     @Transactional
     ParticipationRequestDto cancelRequest(Long userId, Long requestId);
 
-    List<ParticipationRequestDto> getAllEventRequests(Long userId, Long eventId);
+    List<ParticipationRequestDto> getAllRequestsForUserEvent(Long userId, Long eventId);
 
     @Transactional
-    EventRequestStatusUpdateResult updateEventRequestsStatus(Long userId,
-                                                             Long eventId,
-                                                             EventRequestStatusUpdateRequest updateRequest);
+    EventRequestStatusUpdateResult updateEventRequestsStatuses(Long userId,
+                                                               Long eventId,
+                                                               EventRequestStatusUpdateRequest updateRequest);
 }

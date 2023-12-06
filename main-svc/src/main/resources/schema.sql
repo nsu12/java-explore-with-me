@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS participation_request (
     event_id BIGINT REFERENCES event(id) ON DELETE RESTRICT,
     requester_id BIGINT REFERENCES users(id) ON DELETE RESTRICT,
     created_on TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
-    status VARCHAR(10)
+    status VARCHAR(10),
+    CONSTRAINT uniq_event_requester UNIQUE (event_id, requester_id)
 );
 

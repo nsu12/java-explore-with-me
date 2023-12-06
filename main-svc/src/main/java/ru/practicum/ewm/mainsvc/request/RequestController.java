@@ -1,6 +1,7 @@
 package ru.practicum.ewm.mainsvc.request;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.mainsvc.request.dto.EventRequestStatusUpdateRequest;
@@ -18,7 +19,8 @@ public class RequestController {
     private final RequestService requestService;
 
     @PostMapping(value = "/users/{userId}/requests")
-    public ParticipationRequestDto create(
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ParticipationRequestDto createRequest(
             @PathVariable Long userId,
             @RequestParam(name = "eventId") Long eventId
     ) {
@@ -26,7 +28,7 @@ public class RequestController {
     }
 
     @GetMapping(value = "/users/{userId}/requests")
-    public List<ParticipationRequestDto> getAll(@PathVariable Long userId) {
+    public List<ParticipationRequestDto> getAllUserRequests(@PathVariable Long userId) {
         return requestService.getAllUserRequests(userId);
     }
 
@@ -39,11 +41,11 @@ public class RequestController {
     }
 
     @GetMapping(value = "/users/{userId}/events/{eventId}/requests")
-    public List<ParticipationRequestDto> getEventParticipationRequests(
+    public List<ParticipationRequestDto> getAllRequestsForUserEvent(
             @PathVariable Long userId,
             @PathVariable Long eventId
     ) {
-        return requestService.getAllEventRequests(userId, eventId);
+        return requestService.getAllRequestsForUserEvent(userId, eventId);
     }
 
     @PatchMapping(value = "/users/{userId}/events/{eventId}/requests")
@@ -52,6 +54,6 @@ public class RequestController {
             @PathVariable Long eventId,
             @RequestBody @Valid EventRequestStatusUpdateRequest updateRequest
     ) {
-        return requestService.updateEventRequestsStatus(userId, eventId, updateRequest);
+        return requestService.updateEventRequestsStatuses(userId, eventId, updateRequest);
     }
 }

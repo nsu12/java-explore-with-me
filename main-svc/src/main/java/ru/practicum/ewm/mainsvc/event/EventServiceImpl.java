@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,6 +54,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventShortDto> getAllUserEvents(Long userId, Integer from, Integer size) {
+        getUserOrThrow(userId);
         List<EventShortDto> dtoList = EventMapper.toShortDto(eventRepository.findAllByInitiator_Id(
                         userId, PageRequest.of(from / size, size)
                 ).toList()
@@ -65,6 +67,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto getUserEvent(Long userId, Long eventId) {
+        getUserOrThrow(userId);
         EventFullDto eventDto = EventMapper.toFullDto(
                 eventRepository.findByIdAndInitiator_Id(eventId, userId)
                         .orElseThrow(() -> new EntryNotFoundException(
@@ -81,6 +84,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventFullDto updateEventFromUser(Long userId, Long eventId, UpdateEventUserRequest updateRequest) {
+        getUserOrThrow(userId);
         Event event = eventRepository.findByIdAndInitiator_Id(eventId, userId)
                 .orElseThrow(
                         () -> new EntryNotFoundException(
@@ -134,7 +138,7 @@ public class EventServiceImpl implements EventService {
                 PageRequest.of(from / size, size)
         ).toList();
 
-        Map<Long, Long> requestsCountForEvents = getRequestsCountForEvents(
+        Map<Long, Integer> requestsCountForEvents = getRequestsCountForEvents(
                 eventList.stream().map(Event::getId).collect(Collectors.toList())
         );
 
@@ -145,7 +149,7 @@ public class EventServiceImpl implements EventService {
             dtoList = EventMapper.toShortDto(
                     eventList.stream().filter(
                             event -> requestsCountForEvents
-                                    .getOrDefault(event.getId(), 0L) < event.getParticipantLimit()
+                                    .getOrDefault(event.getId(), 0) < event.getParticipantLimit()
                     ).collect(Collectors.toList())
             );
         }
@@ -185,9 +189,17 @@ public class EventServiceImpl implements EventService {
                                          LocalDateTime rangeStartDate,
                                          LocalDateTime rangeEndDate,
                                          Integer from, Integer size) {
+        List<EventState> eventStates = null;
+        if (states != null) {
+            eventStates = states.stream()
+                    .map(EventState::fromString)
+                    .flatMap(Optional::stream)
+                    .collect(Collectors.toList());
+        }
+
         List<EventFullDto> eventDtoList = EventMapper.toFullDto(eventRepository.findAllBy(
                 users,
-                states,
+                eventStates,
                 categories,
                 rangeStartDate,
                 rangeEndDate,
@@ -258,8 +270,8 @@ public class EventServiceImpl implements EventService {
                 );
     }
 
-    private Map<Long, Long> getRequestsCountForEvents(List<Long> eventIdList) {
-        return requestRepository.getRequestCountFor(eventIdList).stream()
+    private Map<Long, Integer> getRequestsCountForEvents(List<Long> eventIdList) {
+        return requestRepository.getConfirmedRequestCountViewsFor(eventIdList).stream()
                 .collect(
                         Collectors.toMap(
                                 RequestCountView::getEventId,
@@ -270,12 +282,12 @@ public class EventServiceImpl implements EventService {
 
     private <T extends EventDto> void setupConfirmedRequests(List<T> dtoList) {
         if (dtoList.isEmpty()) return;
-        Map<Long, Long> requestsCountForEvents = getRequestsCountForEvents(
+        Map<Long, Integer> requestsCountForEvents = getRequestsCountForEvents(
                 dtoList.stream().map(T::getId).collect(Collectors.toList())
         );
 
         for (T dto: dtoList) {
-            dto.setConfirmedRequests(requestsCountForEvents.getOrDefault(dto.getId(), 0L));
+            dto.setConfirmedRequests(requestsCountForEvents.getOrDefault(dto.getId(), 0));
         }
     }
 

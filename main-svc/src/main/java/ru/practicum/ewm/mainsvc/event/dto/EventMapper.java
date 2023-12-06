@@ -27,7 +27,7 @@ public class EventMapper {
                 .requestModeration(event.isRequestModeration())
                 .createdOn(event.getCreatedOn())
                 .publishedOn(event.getPublishedOn())
-                .state(event.getState())
+                .state(event.getState().toString())
                 .build();
     }
 

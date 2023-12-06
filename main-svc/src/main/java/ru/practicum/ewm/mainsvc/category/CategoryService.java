@@ -16,7 +16,7 @@ public interface CategoryService {
     CategoryDto getById(Long catId);
 
     @Transactional
-    CategoryDto update(Long catId, CategoryDto categoryDto);
+    CategoryDto update(Long catId, NewCategoryDto categoryDto);
 
     @Transactional
     void delete(Long catId);
