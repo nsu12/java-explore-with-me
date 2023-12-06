@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.ewm.mainsvc.category.model.Category;
+import ru.practicum.ewm.mainsvc.compilation.model.Compilation;
 import ru.practicum.ewm.mainsvc.event.dto.EventState;
 import ru.practicum.ewm.mainsvc.user.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -46,4 +49,6 @@ public class Event {
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private EventState state;
+    @ManyToMany(mappedBy = "events")
+    private Set<Compilation> compilations = new HashSet<>();
 }

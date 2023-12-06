@@ -9,12 +9,13 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CompilationService {
-    List<CompilationDto> getAll(Boolean pinned, Integer from, Integer size);
-
-    CompilationDto get(Long compId);
 
     @Transactional
     CompilationDto create(NewCompilationDto newCompilation);
+
+    List<CompilationDto> getAll(Boolean pinned, Integer from, Integer size);
+
+    CompilationDto get(Long compId);
 
     @Transactional
     CompilationDto update(Long compId, UpdateCompilationRequest request);

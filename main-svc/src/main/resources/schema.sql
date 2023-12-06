@@ -11,12 +11,6 @@ CREATE TABLE IF NOT EXISTS users (
     CONSTRAINT uniq_name_email UNIQUE (name, email)
 );
 
--- CREATE TABLE IF NOT EXISTS location (
---     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
---     lat FLOAT,
---     lon FLOAT
--- );
-
 CREATE TABLE IF NOT EXISTS event (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR(120) NOT NULL,
@@ -25,7 +19,6 @@ CREATE TABLE IF NOT EXISTS event (
     category_id BIGINT REFERENCES category(id) ON DELETE RESTRICT,
     event_date TIMESTAMP WITHOUT TIME ZONE,
     initiator_id BIGINT REFERENCES users(id) ON DELETE RESTRICT,
---     location_id BIGINT REFERENCES location(id) ON DELETE RESTRICT,
     location_lat FLOAT,
     location_lon FLOAT,
     paid BOOLEAN,
@@ -43,5 +36,19 @@ CREATE TABLE IF NOT EXISTS participation_request (
     created_on TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
     status VARCHAR(10),
     CONSTRAINT uniq_event_requester UNIQUE (event_id, requester_id)
+);
+
+CREATE TABLE IF NOT EXISTS compilation (
+    id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    title VARCHAR(50) NOT NULL,
+    pinned BOOLEAN,
+    CONSTRAINT uniq_title UNIQUE (title)
+);
+
+CREATE TABLE IF NOT EXISTS compilation_event
+(
+    compilation_id BIGINT REFERENCES compilation(id),
+    event_id BIGINT REFERENCES event(id),
+    PRIMARY KEY (compilation_id, event_id)
 );
 

@@ -21,6 +21,7 @@ public class CompilationController {
     private final CompilationService service;
 
     @PostMapping(value = "/admin/compilations")
+    @ResponseStatus(value = HttpStatus.CREATED)
     public CompilationDto create(@RequestBody @Valid NewCompilationDto newCompilation) {
         return service.create(newCompilation);
     }
