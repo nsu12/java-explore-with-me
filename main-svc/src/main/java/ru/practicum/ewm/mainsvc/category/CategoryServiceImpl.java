@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> getAll(Integer from, Integer size) {
         return CategoryMapper.toDto(
                 categoryRepository.findAll(
-                        PageRequest.of(from/size, size, Sort.by(Sort.Direction.ASC, "id"))
+                        PageRequest.of(from / size, size, Sort.by(Sort.Direction.ASC, "id"))
                 ).toList()
         );
     }

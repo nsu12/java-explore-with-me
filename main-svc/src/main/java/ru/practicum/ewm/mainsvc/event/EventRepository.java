@@ -20,7 +20,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     Optional<Event> findByIdAndState(Long eventId, EventState eventState);
 
-    @Query( "SELECT e FROM Event e " +
+    @Query(
+            "SELECT e FROM Event e " +
             "WHERE  (:users IS NULL OR e.initiator.id IN :users) " +
             "   AND (:states IS NULL OR e.state IN :states) " +
             "   AND (:categories IS NULL OR e.category.id IN :categories) " +
@@ -34,7 +35,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                           LocalDateTime rangeEnd,
                           PageRequest pageRequest);
 
-    @Query( "SELECT e FROM Event e " +
+    @Query(
+            "SELECT e FROM Event e " +
             "WHERE  e.state = 'PUBLISHED' " +
             "   AND (:text IS NULL OR (upper(e.annotation) LIKE upper(concat('%', :text, '%'))) " +
             "                      OR (upper(e.description) LIKE upper(concat('%', :text, '%')))) " +

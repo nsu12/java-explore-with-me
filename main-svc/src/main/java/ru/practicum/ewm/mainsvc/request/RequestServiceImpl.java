@@ -26,6 +26,7 @@ public class RequestServiceImpl implements RequestService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final RequestRepository requestRepository;
+
     @Override
     @Transactional
     public ParticipationRequestDto createRequest(Long userId, Long eventId) {
@@ -146,7 +147,7 @@ public class RequestServiceImpl implements RequestService {
         }
 
         if (newStatus == EventRequestStatus.CONFIRMED) {
-            int numToConfirm = event.getParticipantLimit() == 0? requests.size():
+            int numToConfirm = event.getParticipantLimit() == 0 ? requests.size() :
                     Math.min(event.getParticipantLimit() - confirmedRequestsCount, requests.size());
             result.setConfirmedRequests(
                     RequestMapper.toDto(

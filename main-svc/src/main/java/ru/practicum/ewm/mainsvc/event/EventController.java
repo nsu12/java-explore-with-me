@@ -2,13 +2,17 @@ package ru.practicum.ewm.mainsvc.event;
 
 import lombok.RequiredArgsConstructor;
 import org.javatuples.Pair;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.mainsvc.error.InvalidRequestParamsException;
 import ru.practicum.ewm.mainsvc.event.dto.*;
 import ru.practicum.ewm.mainsvc.validation.ValueOfEnum;
+import ru.practicum.ewm.stats.client.StatsClient;
+import ru.practicum.ewm.stats.dto.EndpointHitInDto;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import javax.validation.constraints.Positive;
@@ -17,12 +21,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@ComponentScan("ru.practicum.ewm.stats")
 @RestController
 @RequiredArgsConstructor
 @Validated
 public class EventController {
 
     private final EventService eventService;
+    private final StatsClient statsClient;
 
     // private
     @PostMapping(value = "/users/{userId}/events")
@@ -67,9 +73,16 @@ public class EventController {
             @RequestParam(name = "onlyAvailable", defaultValue = "false") Boolean onlyAvailable,
             @RequestParam(name = "sort", required = false) String sortBy,
             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
-            @Positive @RequestParam(name = "size", defaultValue = "10") Integer size
+            @Positive @RequestParam(name = "size", defaultValue = "10") Integer size,
+            HttpServletRequest request
     ) {
         var range = checkDateRange(rangeStart, rangeEnd);
+
+        statsClient.addHit(
+                new EndpointHitInDto(
+                    "main-svc", request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now()
+                )
+        );
 
         return eventService.findPublishedEvents(
                 text,
@@ -86,7 +99,12 @@ public class EventController {
     }
 
     @GetMapping(value = "/events/{id}")
-    public EventFullDto getPublishedEventById(@PathVariable Long id) {
+    public EventFullDto getPublishedEventById(@PathVariable Long id, HttpServletRequest request) {
+        statsClient.addHit(
+                new EndpointHitInDto(
+                        "main-svc", request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now()
+                )
+        );
         return eventService.getPublishedEventById(id);
     }
 

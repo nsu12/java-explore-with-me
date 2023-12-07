@@ -19,6 +19,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
     @Override
     @Transactional
     public UserDto addUser(NewUserDto userInDto) {
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
             users = userRepository.findAllById(userIds);
         } else {
             users = userRepository.findAll(
-                    PageRequest.of(from/size, size, Sort.by(Sort.Direction.ASC, "id"))
+                    PageRequest.of(from / size, size, Sort.by(Sort.Direction.ASC, "id"))
             ).toList();
         }
         return UserMapper.toDto(users);
