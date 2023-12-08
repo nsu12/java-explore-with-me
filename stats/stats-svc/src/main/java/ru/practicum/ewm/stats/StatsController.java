@@ -1,6 +1,7 @@
 package ru.practicum.ewm.stats;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.stats.dto.EndpointHitDto;
@@ -21,6 +22,7 @@ public class StatsController {
     private final StatsService statsService;
 
     @PostMapping(value = "/hit")
+    @ResponseStatus(value = HttpStatus.CREATED)
     public EndpointHitDto addHit(@RequestBody @Valid EndpointHitInDto hitInDto) {
         return statsService.addHit(hitInDto);
     }
@@ -34,8 +36,8 @@ public class StatsController {
     ) {
         LocalDateTime startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime endDate = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        if (!endDate.isAfter(startDate)) {
-            throw new ValidationException("end date must be after start date");
+        if (endDate.isBefore(startDate)) {
+            throw new ValidationException("end date cannot be before start date");
         }
         return statsService.getStats(startDate, endDate, uris, unique);
     }
