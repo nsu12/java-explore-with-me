@@ -65,6 +65,11 @@ public class CommentController {
         return commentService.getAllEventComments(eventId, from, size);
     }
 
+    @GetMapping(path = "/comments/{id}")
+    public CommentDto getComment(@PathVariable Long id) {
+        return commentService.getComment(id);
+    }
+
     // admin api
     @DeleteMapping(path = "/admin/comments/{commentId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)

@@ -13,6 +13,8 @@ public interface CommentService {
     @Transactional
     CommentDto createComment(Long userId, Long eventId, NewCommentDto comment);
 
+    CommentDto getComment(Long id);
+
     List<CommentDto> getAllUserComments(Long userId, @Nullable Long eventId);
 
     List<CommentDto> getAllEventComments(Long eventId, Integer from, Integer size);

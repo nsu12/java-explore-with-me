@@ -46,6 +46,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public CommentDto getComment(Long id) {
+        return CommentMapper.toDto(getCommentOrThrow(id));
+    }
+
+    @Override
     public List<CommentDto> getAllUserComments(Long userId, @Nullable Long eventId) {
         return CommentMapper.toDto(commentRepository.findAllUserComments(userId, eventId));
     }
@@ -75,12 +80,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void deleteComment(Long commentId) {
-        commentRepository.delete(commentRepository.findById(commentId)
-                    .orElseThrow(() -> new EntryNotFoundException(
-                            String.format("Comment with id=%d was not found", commentId)
-                    )
-                )
-        );
+        commentRepository.delete(getCommentOrThrow(commentId));
     }
 
     private User getUserOrThrow(Long id) {
@@ -99,6 +99,13 @@ public class CommentServiceImpl implements CommentService {
                 );
     }
 
+    private Comment getCommentOrThrow(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntryNotFoundException(
+                                String.format("Comment with id=%d was not found", commentId)
+                        )
+                );
+    }
     private Comment getCommentOrThrow(Long userId, Long commentId) {
         return commentRepository.findByIdAndAuthor_Id(commentId, userId)
                 .orElseThrow(() -> new EntryNotFoundException(
