@@ -106,6 +106,7 @@ public class CommentServiceImpl implements CommentService {
                         )
                 );
     }
+
     private Comment getCommentOrThrow(Long userId, Long commentId) {
         return commentRepository.findByIdAndAuthor_Id(commentId, userId)
                 .orElseThrow(() -> new EntryNotFoundException(
