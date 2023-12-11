@@ -52,3 +52,13 @@ CREATE TABLE IF NOT EXISTS compilation_event
     PRIMARY KEY (compilation_id, event_id)
 );
 
+CREATE TABLE IF NOT EXISTS comment
+(
+    id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    text VARCHAR(1000),
+    event_id BIGINT REFERENCES event(id) ON DELETE CASCADE,
+    author_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    created_on TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+    edited BOOLEAN DEFAULT FALSE
+);
+
